@@ -23,7 +23,7 @@ import java.io.IOException;
  * 3．重写service方法，用来处理请求
  * 4．设置注解，指定访问路径
  */
-@WebServlet(name = "/servlet/Test_1", value = {"/servlet/Test_1", "/servlet/Test1", "/servlet/Test01", "/servlet/Test_01"})//value设置访问url
+@WebServlet(name = "servlet", value = {"/servlet/Test_1", "/servlet/Test1", "/servlet/Test01", "/servlet/Test_01"})//value设置访问url
 public class Test_1 extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
