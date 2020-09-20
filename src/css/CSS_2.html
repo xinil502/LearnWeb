@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>样式块方式</title>
+    <style type="text/css">
+        /*
+        CSS的注释
+         */
+        /*id选择器：id不能重复，单独设置*/
+        #userNameErrorMsg{
+            color: pink;
+            font-size: 40px;
+        }
+        /*标签选择器:对所有这个标签用这个样式*/
+        div{
+            background: red;
+            width: 200px;
+            height: 300px;
+        }
+        /*类选择器*/
+        .myclass{
+            background: blue;
+            width: 200px;
+            height: 30px;
+            border: 5px;
+        }
+    </style>
+</head>
+<body>
+    <span id="userNameErrorMsg">对不起，用户名不能为空</span>
+    <div></div><br>
+    <div></div><br>
+
+    <!--class标签相同的标签可以认为是同一类标签-->
+    <input type="text" class="myclass"><br><br>
+    <select class="myclass">
+        <option>专科</option>
+        <option>本科</option>
+    </select>
+</body>
+</html>

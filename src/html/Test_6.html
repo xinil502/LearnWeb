@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>thead,tbody,tfoot</title>
+</head>
+<body>
+    <!--
+        thead,tbody,tfoot不是HTML必须的，是为了JS的编写
+    -->
+    <table border="10px" width="50%" height="200px" align="center">
+        <thead>
+            <tr align="center">
+                <th></th>
+                <th>黄宇尘</th>
+                <th>任基伟</th>
+                <th>史龙文</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr align="center">
+                <th>C</th>
+                <td>(1,1)</td>
+                <td>(1,2)</td>
+                <td rowspan="2">(1,3)</td>
+            </tr>
+            <tr align="center">
+                <td>Java</td>
+                <td colspan="2">(2,1)</td>
+            </tr>
+        </tbody>
+        <tfoot></tfoot>
+    </table>
+</body>
+</html>

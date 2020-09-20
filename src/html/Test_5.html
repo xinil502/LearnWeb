@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表格单元格合并</title>
+</head>
+<body>
+<table border="10px" width="50%" height="200px" align="center">
+    <tr align="center">
+        <td></td>
+        <td>黄宇尘</td>
+        <td>任基伟</td>
+        <td>史龙文</td>
+    </tr>
+    <!--
+        单元格合并：
+            1.删除右下被合并的格子
+            2.对左上的格子增加属性(合并多少格子)
+            rowspan="x" 合并当前位置往下的共x个单元格。
+            colspan="x" 合并当前位置往右的共x个单元格。
+        注意：删除右下的单元格，给左上的单元格增加属性。
+    -->
+    <tr align="center">
+        <td>C</td>
+        <td>(1,1)</td>
+        <td>(1,2)</td>
+        <td rowspan="2">(1,3)</td>
+    </tr>
+    <tr align="center">
+        <td>Java</td>
+        <td colspan="2">(2,1)</td>
+        <!--<td>(2,2)</td>-->
+        <!--<td>(2,3)</td>-->
+    </tr>
+</table>
+</body>
+</html>

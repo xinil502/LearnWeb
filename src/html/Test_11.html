@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>表单form</title>
+</head>
+<body>
+    <!--
+        表单的作用：
+            收集用户信息。
+            用户填写表单后点击提交数据给服务器。
+        form标签：表单
+            action 属性，指定服务器地址。
+                与超链接中的href属性一样，都可以向服务器发送request。
+            method 属性：提交表单方式
+                post值：发送post请求，网站链接不会显示键值对
+                get值：发送get请求，网站链接会暴漏键值对（默认get请求）
+        网页中可以同时存在多个form表单
+    -->
+    <form action="错误网址">
+
+        <!--
+            input按钮
+                type属性：按钮属性
+                    test文本框
+                    password密码框
+                    radio单选按钮
+                    button普通按钮
+                    submit提交按钮  提交按钮会把整个表单的数据带走。
+                    reset清空表单按钮
+                value属性：按钮显示的文本信息
+                placeholder属性显示提示信息
+
+                HTTP协议中，表单往服务器提交数据，必须以这种格式提交
+                https://www.baidu.com/action?name=value&name=value
+                https://www.baidu.com/?username=abc&password=123
+
+                注意：
+                    表单写name属性的，一律会提交给服务器。不提交的，不要写name属性
+        -->
+        <td><input type="text" value="在此输入信息"/></td>
+        <input type="submit" value="提交信息"/>
+    </form>
+    <form action="http://www.baidu.com" method="post">
+        <table align="center">
+            <tr align="center">
+                <td>用户名</td>
+                <td><input type="text" placeholder="用户名" name="username"/></td>
+            </tr>
+            <tr align="center">
+                <td>密码</td>
+                <td><input type="password" placeholder="密码" name="password"/></td>
+            </tr>
+            <tr align="center">
+                <td colspan="2"><input type="submit" value="登陆"/>
+                    &nbsp;&nbsp;
+                    <a href="Test_12.html"><input type="button" value="注册"></a>
+            </tr>
+        </table>
+    </form>
+    <form></form>
+    <form></form>
+</body>
+</html>

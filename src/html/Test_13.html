@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>form的file，hidden控件</title>
+</head>
+<body>
+    <!--file 控件，文件上传专用-->
+    <input type="file">
+
+    <form action="测试网址">
+        <!--
+            hidden控件，隐藏域
+            表单中不显示，但是有name会提交
+        -->
+        <input type="hidden" name="userId" value="111">
+        代码<input type="text" name="userCode" >
+        <input type="submit" value="提交代码">
+    </form>
+</body>
+</html>
