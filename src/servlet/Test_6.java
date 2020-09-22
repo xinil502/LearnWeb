@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * 接收请求的常用方法。
  */
-@WebServlet(name = "servlet/Test_6", value = "/servlet/Test_66")
+@WebServlet(name = "servlet/Test_6", value = "/servlet/Test_6")
 public class Test_6 extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
