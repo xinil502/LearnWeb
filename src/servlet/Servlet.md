@@ -91,11 +91,36 @@ public void destroy(){
 
 #### 5.1.1常用方法
 
-1.方法：
-
 * getRequestURL()        获取客户端请求的完整URL (从 http 开始，到 ? 前)
 * getRequestURI()         获取客户端请求的资源名称部分 (从站点名到 ? 前)
 
-* getQueryString()        获取请求行中的参数部分。
-* getMethod()                获取请求方式
-* getProtocol()               获取 Http 版本号。
+* getQueryString()        获取请求行中的参数部分。(从 ? 开始，到结束)
+* getMethod()                获取请求方式( GET 和 SET)
+* getProtocol()               获取 Http 版本号。(HTTP/1.1)
+* getContextPath()        获取项目的站点名。(项目的对外访问路径)
+
+#### 5.12.获取请求参数
+
+* String getParameter(String name)   			获取指定名称的参数。
+* String[]  getParameterValues(String name)    获取指定名称参数的所有值
+
+### 5.2.请求乱码问题
+
+​	由于现在的request属于接收客户端的参数，所以必然有其默认的语言编码，主要是由于在解析过程中默认使用的编码方式为IS0-8859-1(此编码不支持中文)，所以解析时一定会出现乱码。要想解决这种乱码问题，需要设置request中的编码方式，告诉服务器以何种方式来解析数据。或者在接收到乱码数据以后，再通过相应的编码格式还原。
+
+乱码原因：
+​    由于在解析过程中默认使用的编码方式为ISO-8859-1(此编码不支持中文)，所以编译时会出现乱码。
+
+```
+                             GET请求                      POST请求
+Tomcat 7 及以前，             会乱码                          会乱码
+Tomcat 8 及以上，            不会乱码                         会乱码。
+```
+无论什么版本的服务器，POST请求都会乱码。解决方法：
+
+* request.setCharacterEncoding("UTF-8");
+
+注意：
+
+* 1.request.setCharacterEncoding("UTF-8") 只针对 POST 请求的乱码有效。
+* 2.new String(request.getParameter("uname").getBytes("ISO-8859-1"), "UTF-8")针对任何请求方式。
