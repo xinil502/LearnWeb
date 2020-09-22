@@ -1,6 +1,6 @@
 # Servlet学习笔记
 
-## 一、Servlet的实现
+## 1、Servlet的实现
 
 实现Servlet实现流程
 * 1．创建普通Java类
@@ -8,7 +8,7 @@
 * 3．重写service方法，用来处理请求
 * 4．设置注解，指定访问路径
 
-## 二、Servlet的工作流程
+## 2、Servlet的工作流程
 
 当有请求进来的时候,会找到当前电脑的8080端口，来访问主机的服务器。
 找到服务器后，会通过请求行当中的路径，访问到具体的应用，
@@ -18,7 +18,7 @@
 此时request对象，response对象就会被生成，来处理请求和响应。
 
 
-## 三、Servlet的生命周期
+## 3、Servlet的生命周期
 
 Servlet没有main()方法，不能独立运行，它的运行完全由Servlet引擎来控制和调度。所谓生命周期是servlet容器何时创建servlet'实例、何时调用其方法进行请求的处理、何时并销毁其实例的整个过程。
 
@@ -26,7 +26,7 @@ Servlet类加载—>实例化—>f服务—>销毁
 
 上述的生命周期可以通过Servlet中的生命周期方法来观察。在Servlet中有三个生命周期方法，不由用户手动调用，而是在特定的时机有容器自动调用，观察这三个生命周期方法，即可观察到Servlet的生命周期。
 
-### 1.实例和初始化时机（仅一次）
+### 3.1.实例和初始化时机（仅一次）
 
 当请求到达容器时，容器查找该servlet对象是否存在，如果不存在，则会创建实例并进行初始化。
 
@@ -38,7 +38,7 @@ public void init(ServletConfig config) throws ServletException{
 }
 ```
 
-### 2.就绪/调用/服务阶段（多次调用）
+### 3.2.就绪/调用/服务阶段（多次调用）
 
 有请求到达容器容器调用servlet对象的service()方法,处理请求的方法在整个生命周期中可以被多次调用HttpServlet的service()方法，会依据请求方式来调用doGet()或者doPost()方法。但是，这两个do方法默认情况下，会抛出异常，需要子类去override。
 
@@ -50,7 +50,7 @@ public void service(HttpServletRequest request, HttpServletResponse response) th
 }
 ```
 
-### 3.销毁时机
+### 3.3.销毁时机
 
 当容器关闭时（应用程序停止时)，会将程序中的Servlet 实例进行销毁。
 
@@ -62,7 +62,7 @@ public void destroy(){
 }
 ```
 
-## 四、Tomcat与Servlet的工作流程
+## 4、Tomcat与Servlet的工作流程
 
 * 1.Web Client 向 Servlet 容器（Tomcat）发出HTTP请求。
 * 2.Servlet 容器接收 WebClient 请求
@@ -73,7 +73,7 @@ public void destroy(){
 * 7.HttpServlet 调用 HttpServletResponse 对象的有关方法，生成响应数据。
 * 8.Servlet 容器把 HttpServlet 的响应结果传给 Web Client 
 
-## 五、HttpServletRequest对象
+## 5、HttpServletRequest对象
 
 * HttpServletRequest 对象：主要是用来接收客户端发送过来的请求信息，例如：请求的参数，发送的头信息，都属于客户端发来的信息，service（）方法中形参接收的就是 HttpServletRequest 接口的实例化对象，表示该对象主要应用在 HTTP 协议上，该对象是由 Tomcat 封装好传递过来的。
 
@@ -87,3 +87,15 @@ public void destroy(){
 
   * 不需要！直接在Service方法中，由容器传入过来，而我们需要做的就是取出对象中的数据，进行分析，处理。
 
+### 5.1.接收请求
+
+#### 5.1.1常用方法
+
+1.方法：
+
+* getRequestURL()        获取客户端请求的完整URL (从 http 开始，到 ? 前)
+* getRequestURI()         获取客户端请求的资源名称部分 (从站点名到 ? 前)
+
+* getQueryString()        获取请求行中的参数部分。
+* getMethod()                获取请求方式
+* getProtocol()               获取 Http 版本号。
