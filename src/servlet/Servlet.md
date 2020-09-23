@@ -3,18 +3,45 @@
 ## 1、Servlet的实现
 
 实现Servlet实现流程
-* 1．创建普通Java类
-* 2．实现Servlet的规范，继承HttpServlet类
-* 3．重写service方法，用来处理请求
-* 4．设置注解，指定访问路径
+
+* 1.创建 Java EE 项目
+
+* 2.创建普通Java类
+
+* 3.实现 Servlet 接口。
+
+* 4.实现接口中的抽象方法。
+
+* 5.设置注解，指定访问路径
+
+* 6.配置Servlet 
+
+  **patten(URL)**—> **name** —> **class**
+
+  ```jsp
+  <servlet>
+      <servlet-name>Servlet名字1</servlet-name>
+      <servlet-class>servlet.Servlet_1</servlet-class>
+  </servlet>
+  <servlet-mapping>
+  	<servlet-name>Servlet名字1</servlet-name>
+      <url-pattern>/Servlet_1</url-pattern>
+  </servlet-mapping>
+  ```
 
 ## 2、Servlet的工作流程
 
-当有请求进来的时候,会找到当前电脑的8080端口，来访问主机的服务器。
-找到服务器后，会通过请求行当中的路径，访问到具体的应用，
-在应用中找到与之相对应的路径（注解）
-此时就会找到那个被访问的Servlet。
-如果该Servlet是被第一次访问，服务器就会创建一个对应的Servlet。
+当有请求进来的时候,会找到当前电脑的8080端口，来访问主机的Tomcat服务器。
+
+找到服务器后，会通过请求行当中的路径，访问到具体的服务器应用。
+
+**patten(URL)**—> **name** —> **class** 在web.xml中找到与路径相对应的Servlet。
+
+通过全类名（包名.包名....类名）加载对应的字节码文件加载进内存。
+
+服务器就会通过反射创建一个对应的Servlet对象。
+
+
 此时request对象，response对象就会被生成，来处理请求和响应。
 
 
@@ -32,35 +59,33 @@ Servlet类加载—>实例化—>f服务—>销毁
 
 **init**方法，在Servlet实例创建之后执行（证明该Servlet有实例创建了）
 
-```java
-public void init(ServletConfig config) throws ServletException{
-	System.out.println("实例创建了。。。");
-}
+```jsp
+<servlet>
+	<!--对象的创建时间-->
+	<!--参数为负数，第一次被访问时创建对象-->
+    <!--参数为非负数，服务器启动时时创建对象-->
+    <load-on-startup>参数</load-on-startup>
+</servlet>
 ```
 
 ### 3.2.就绪/调用/服务阶段（多次调用）
 
-有请求到达容器容器调用servlet对象的service()方法,处理请求的方法在整个生命周期中可以被多次调用HttpServlet的service()方法，会依据请求方式来调用doGet()或者doPost()方法。但是，这两个do方法默认情况下，会抛出异常，需要子类去override。
-
 **service**方法，每次有个请求到达某个Servlet方法时执行，用来处理请求（证明该Servlet进行服务了）
 
-```java
-public void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-	System.out.println("服务器调用了。。。");
-}
-```
+**注意事项**:
 
-### 3.3.销毁时机
+* service的执行方法存在并发问题，尽量不要定义成员变量，就算定义了成员变量，也不要对其值进行修改。
+
+### 3.3.销毁时机（仅一次）
 
 当容器关闭时（应用程序停止时)，会将程序中的Servlet 实例进行销毁。
 
 **destroy**方法，Servlet实例销毁时执行（证明该Servlet实例被销毁了）
 
-```java
-public void destroy(){
-    System.out.println("实例销毁了。。。");
-}
-```
+**注意事项**：
+
+* 只有服务器正常关闭时，才会执行desTroy方法。
+* destory方法在被销毁前执行，一般用于释放资源。
 
 ## 4、Tomcat与Servlet的工作流程
 
@@ -124,3 +149,17 @@ Tomcat 8 及以上，            不会乱码                         会乱码�
 
 * 1.request.setCharacterEncoding("UTF-8") 只针对 POST 请求的乱码有效。
 * 2.new String(request.getParameter("uname").getBytes("ISO-8859-1"), "UTF-8")针对任何请求方式。
+
+### 5.3.请求转发跳转
+
+​	可以让请求从服务端到达客户端（或跳转到指定Servlet）。
+
+* 请求转发，是一种**服务器的行为**。
+
+* 当客户端请求到达后，服务器进行转发，此时会将请求对象进行保存，地址栏中的 **URL 地址不会改变** 。
+* 得到响应后，服务器端再将响应发送给客户端，**从始至终只有一个请求发出** 。
+
+* 实现方式如下，达到多个资源协同相应的效果。
+
+`request.getRequestDispatcher(url).forward(request, response);`
+
