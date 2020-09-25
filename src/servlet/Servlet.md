@@ -12,11 +12,9 @@
 
 * 4.实现接口中的抽象方法。
 
-* 5.设置注解，指定访问路径
+* 5.配置Servlet  / 设置注解（资源路径），指定访问路径
 
-* 6.配置Servlet 
-
-  **patten(URL)**—> **name** —> **class**
+  * **patten(URL)**—> **name** —> **class**
 
   ```jsp
   <servlet>
@@ -28,6 +26,16 @@
       <url-pattern>/Servlet_1</url-pattern>
   </servlet-mapping>
   ```
+
+  * @WebServlet()
+
+    ```java
+    @WebServlet("/Servlet_1")
+    @WebServlet("/path1/path2//Servlet_1")
+    @WebServlet("/path1/path2/*") //*表示通配路径（通配访问路径优先级低）
+    @WebServlet("Servlet.do")  //注意前面不加 '/'
+    ```
+
 
 ## 2、Servlet的工作流程
 
@@ -94,7 +102,7 @@ Servlet类加载—>实例化—>f服务—>销毁
 * 3.Servle t容器创建一个 HttpServletRequest 对象，将 Web Client 请求的信息封装到这个对象中
 * 4.Servlet 容器创建一个 HttpServletResponse 对象
 * 5.Servlet 容器调用 HttpServlet 对象的 service 方法， 把 Request 与 Response 作为参数，传给 HttpServlet
-* 6.HttpServlet 调用 HttpServletRequest 对象的有关方法， 获取HTTP信息。
+* 6.HttpServlet 调用 HttpServletRequest 对象的有关方法， 获取请求信息。
 * 7.HttpServlet 调用 HttpServletResponse 对象的有关方法，生成响应数据。
 * 8.Servlet 容器把 HttpServlet 的响应结果传给 Web Client 
 
