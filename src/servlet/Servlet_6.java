@@ -15,9 +15,9 @@ public class Servlet_6 extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("Servlet_6被访问了");
-        //存储共享数据
-        request.setAttribute("msg", "这是我想说的话");
-        //转发到Servlet_6_1
-        request.getRequestDispatcher("/Servlet_6_1").forward(request,response);
+        request.setAttribute("msg", "这是我想说的话");        //存储共享数据
+
+        request.getRequestDispatcher("/Servlet_6_1").forward(request,response);        //转发到Servlet_6_1
+
     }
 }

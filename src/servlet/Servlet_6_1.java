@@ -17,6 +17,6 @@ public class Servlet_6_1 extends HttpServlet {
         System.out.println("Servlet_6_1被访问了。");
 
         Object obj = request.getAttribute("msg"); //获取共享数据
-        System.out.println((String)obj);
+        System.out.println(obj);
     }
 }
