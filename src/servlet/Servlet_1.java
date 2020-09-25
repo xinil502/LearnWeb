@@ -1,8 +1,10 @@
 package servlet;
 
 import javax.servlet.*;
+import javax.servlet.annotation.WebServlet;
 import java.io.IOException;
 
+@WebServlet("/Servlet_1")
 public class Servlet_1 implements Servlet {
     /**
      * 在Servlet被创建时执行，只会执行一次
