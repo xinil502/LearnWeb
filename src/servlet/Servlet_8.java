@@ -14,7 +14,7 @@ import java.io.IOException;
 public class Servlet_8 extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //访问servlet_8会跳转到servlet_8_1资源
+        //访问servlet_8会重定向到百度
 
         /**
          * response.setStatus(302);
