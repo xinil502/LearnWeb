@@ -272,3 +272,88 @@ Tomcat 8 及以上，            不会乱码                         会乱码�
 * 转发地址栏路径不变。
 * 转发只能访问当前服务器下的资源。
 * 转发只是一次请求。(共享一个Request对象，可以共享数据)
+
+## 8.字节输出流，字符输出流
+
+* 字符输出流：`PrintWriter pw = response.getWriter();`
+
+* 字节输出流：`ServletOutputStream sos = response.getOutputStream();`
+
+## 9.ServletContext对象
+
+### 9.1.概念：
+
+* 代表：代表整个Web应用，可以和程序的容器(服务器)来通信。
+
+### 9.2.获取：
+
+* 通过request对象获取：
+
+  `request.getServletContext();`
+
+* 通过HttpServlet来获取
+
+  `this.getServletContext();`
+
+### 9.3.功能：
+
+#### 9.3.1.获取MIMI类型的文件
+
+* MIME类型：在互联网通信过程中定义的一种文件数据类型。
+
+* 根式：`大类型/小类型`
+
+  举例
+
+  * `text/html`
+  * `image/jpeg`
+
+* 获取方法：`getMimeType(String file);`
+
+#### 9.3.2.是一个域对象，可以共享数据。
+
+ServletContext 对象域的范围：所有用户，所有请求的数据都可以共享。
+
+* `setAtteribute(String name, Object value);`
+* `getAtteribute(String name);`
+* `removeAtteribute(String name);`
+
+* 谨慎使用，内存多了压力大。
+
+#### 9.3.3.获取文件的真实路径(服务器)路径。
+
+`String getRealPath(String path)`
+
+src下的文件通过WEB-INF/classes访问。
+
+## 10.文件下载
+
+文件下载案例：
+
+* 需求：
+
+  * 1.页面显示下载超链接
+  * 2.点击超链接后弹出下载提示框
+  * 3.完成图片文件下载。
+
+
+* 分析：
+  * 1.超链接指向的资源如果能被浏览器解析，则在浏览器中展示，不能解析则下载，不满足需求。
+  * 2.任何资源都必须弹出下载提示框。
+  * 3.使用响应头设置资源的打开方式：`content-disposition:attachment;filename=XXX.xxx`
+* 步骤：
+             * 1.定义页面，编辑超链接href属性，指向Servlet，传递资源名称参数：filename。
+             * 2.定义Servlet：
+               * 1.获取文件名称。
+               * 2.加载文件进内存。（通过真实路径获取）
+               * 3.指定response的响应头,以附件/弹窗的形式：`content-disposition:attachment;filename=XXX.xxx`
+               * 4.使用response的输出流中。
+
+* 问题
+
+  中文文件在下载下来时，不会保留设置的文件名称。
+
+  解决思路：
+
+  * 1.根据客户端使用的浏览器版本信息。
+  * 2.设置不同的filename的编码方式。
