@@ -213,7 +213,8 @@ Tomcat 8 及以上，            不会乱码                         会乱码�
 
 * 域对象：一个有作用范围的对象，可以在范围内共享数据。
 * request域：代表一次请求的范围，一般用于请求多个资源中的共享数据。
-* 方法：
+* ### 方法：
+  
   * `void setAttribute(String name, Object obj); `存储数据
   * `Object getAttribute(String name);  `通过键获取值
   * `void removeAttribute(String name);  通过键移除键`值对
@@ -342,12 +343,13 @@ src下的文件通过WEB-INF/classes访问。
   * 2.任何资源都必须弹出下载提示框。
   * 3.使用响应头设置资源的打开方式：`content-disposition:attachment;filename=XXX.xxx`
 * 步骤：
-             * 1.定义页面，编辑超链接href属性，指向Servlet，传递资源名称参数：filename。
-             * 2.定义Servlet：
-               * 1.获取文件名称。
-               * 2.加载文件进内存。（通过真实路径获取）
-               * 3.指定response的响应头,以附件/弹窗的形式：`content-disposition:attachment;filename=XXX.xxx`
-               * 4.使用response的输出流中。
+
+     * 1.定义页面，编辑超链接href属性，指向Servlet，传递资源名称参数：filename。
+     * 2.定义Servlet：
+       * 1.获取文件名称。
+       * 2.加载文件进内存。（通过真实路径获取）
+       * 3.指定response的响应头,以附件/弹窗的形式：`content-disposition:attachment;filename=XXX.xxx`
+       * 4.使用response的输出流中。
 
 * 问题
 
@@ -357,3 +359,34 @@ src下的文件通过WEB-INF/classes访问。
 
   * 1.根据客户端使用的浏览器版本信息。
   * 2.设置不同的filename的编码方式。
+
+## 11.Cookie
+
+### 11.1.会话技术
+
+**一次会话**
+
+* 包含多次请求和响应。浏览器第一次给服务器发送访问请求，会话建立，直到有一方断开为止。
+
+**功能**：
+
+* 共享数据：在一次会话的范围内共享数据。
+
+**方式**：
+
+* 客户端会话技术：Cookie
+* 服务端会话技术：Session
+
+### 11.2基本的使用步骤
+
+* 1.创建Cookie对象，绑定数据。
+
+  `Cookie cookie = new Cookie(String name, String value);`
+
+* 2.发送Cookie对象。
+
+  `response.addCookie(Cookie cookie);`
+
+* 3.获取Cookie，拿到数据。
+
+  `Cookie[] request.getCookies()`
