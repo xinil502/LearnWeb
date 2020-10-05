@@ -377,7 +377,7 @@ src下的文件通过WEB-INF/classes访问。
 * 客户端会话技术：Cookie
 * 服务端会话技术：Session
 
-### 11.2基本的使用步骤
+### 11.2.基本的使用步骤
 
 * 1.创建Cookie对象，绑定数据。
 
@@ -390,3 +390,207 @@ src下的文件通过WEB-INF/classes访问。
 * 3.获取Cookie，拿到数据。
 
   `Cookie[] request.getCookies()`
+
+### 11.3.Cookie的实现原理
+
+* 基于响应头 `set-cookie` 和请求头 `cookie` 的实现。
+
+### 11.4.注意事项
+
+* 1.一次可以发送多个cookie。
+
+  响应头：
+
+  * `set-cookie:key=value`
+  * `set-cookie:key=value`
+  * ......
+
+  请求头：
+
+  * `cookie:key=value;key=value;key=value...`
+
+* 2.cookie在浏览器中的保存时间
+
+  * 1.默认情况下，保存在浏览器的内存中，浏览器关闭，cookie数据被损毁。
+
+  * 2.持久化存储：
+
+    * `setMaxAge(int seconds);`
+
+      1.正数：将cookie数据写到硬盘的文件中，持久化存储。数值代表cookie的存活时间。
+
+      2.负数：默认值。
+
+      3.零：删除cookie值。
+
+* 3.cookie存储中文数据。
+
+  * 在tomcat 8 之前， cookie 不能存储中文数据。
+    * 需要将中文数据转码，一般采用URL编码（%E3）
+  * 在tomcat 8 之后， cookie 可以存储中文数据。（不支持的特殊字符，还是使用URL编码）
+
+* 4.cookie 的获取范围。
+
+  * 1.cookie 在同一个服务器的多个项目下不能共享。
+
+      * `setPath(String path)` 
+        * `path`  
+          * 默认设置当前的虚拟路径。`"/虚拟路径"`
+          * 设置为服务器所有项目访问：`path = "/"`
+  * 2.不同服务器之间的cookie共享。
+
+### 11.5.Cookie的特点和作用
+
+特点
+
+* 1.Cookie 存储数据在客户端浏览器。
+* 2.Cookie 的存储大小有限制，不同浏览器的大小不同 。
+
+作用
+
+* 1.Cookie一般用于存储少量的不太敏感的数据。
+* 2.在不登陆的情况下，完成服务器对客户端的识别。
+
+## 12.Filter 过滤器
+
+当访问服务器的资源时，过滤器可以将请求拦截下来，完成一些特殊的功能。
+
+**过滤器的作用**：
+
+* 完成一些通用的操作。登陆验证，统一编码处理，敏感词过滤...
+
+**步骤**：
+
+* 1.定义一个类，实现 Filter 接口
+* 2.实现方法
+* 3.配置拦截路径
+  * web.xml 配置
+  * 注解配置 @webFilter(String path)
+
+### 12.1.过滤器的执行流程
+
+```java
+public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
+	//对request消息的拦截
+    System.out.println("过滤器filter_1正在过滤请求");
+
+    filterChain.doFilter(servletRequest, servletResponse);//放行
+
+    //对response对象的增强。
+    System.out.println("过滤器filter_1正在过滤响应");
+}
+```
+
+### 12.2.过滤器的生命周期
+
+**init方法**：
+
+* 服务器在启动后创建 Filter 方法，服务器调用 init 方法
+* 一般用于加载资源
+
+**doFilter方法**：
+
+* 每次收到请求时都会执行。
+
+* 用于过滤操作。
+
+**destory方法**：
+
+* 服务器在正常关闭时，服务器调用destroy方法。
+* 一般用于释放资源
+
+### 12.3.过滤器配置
+
+**拦截路径配置** 
+
+* 1.具体资源路径拦截： `"/index.jsp"`   (不包含虚拟路径)
+* 2.目录拦截：`"/user/tp/*"`  (不包含虚拟路径)
+* 3.后缀名拦截： `"*.jsp"`
+* 4.拦截所有资源： `"/*"`
+
+**拦截方式配置**
+
+* 注解：`dispatcherTypes = {DispatcherTypes.XXXX .....}`
+
+  可填：
+
+  * REQUEST：只有浏览器直接请求时，过滤器才会被执行。
+  * FORWORD：只有转发访问时，过滤器才会被执行。
+  * INCLUDE：包含访问资源。
+  * ERROR：错误跳转资源。
+  * ASYNC：异步获取资源。
+
+### 12.4.过滤器链
+
+执行顺序：
+
+* 如果有两个过滤器，
+
+* 1.请求过滤时，先执行过滤器1，再执行过滤器2。
+
+* 2.资源执行
+
+* 3.响应过滤时，先执行过滤器2，再执行过滤器1。
+
+先后顺序：
+
+* 注解配置：
+
+  过滤器类名，字符串小的先执行。
+
+* xml配置：
+
+  谁定义在上面谁先执行。
+
+## 13.Listener 监听器
+
+事件监听机制：
+
+* 事件：一件事情，
+* 事件源：事件发生的地方。
+* 监听器：一个对象。
+* 注册监听：将事件，事件源，监听器绑定在一起。当某个事件源上发生某个时间后，执行监听器代码。
+
+**ServletContextListener**：监听ServletContext对象的创建和销毁。
+
+* 
+
+**步骤**：
+
+* 1.定义一个类，实现 **ServletContextListener** 接口。
+
+* 2.实现方法
+
+  * void contextInitialized(ServletContextEvent sce)  该对象创建前回调用该方法。
+
+    * 服务器启动后自动创建ServletContext对象。
+
+    * 监听器在监听到ServletContext对象创建后会执行该方法
+
+    * 加载资源文件（配置文件......）
+
+      ```java
+      //1.获取ServletContext对象
+      ServletContext servletContext = servletContextEvent.getServletContext();
+      
+      //2.加载资源文件。
+      String con = servletContext.getInitParater("a.xml");
+      
+      //3.获取真实路径
+      String realPath = servletContext.getRealPath(con);
+      
+      //4.加载进内存
+      FileInputStream fis = new FileInputStream(realPath);
+      ```
+
+      
+
+  * void contextDestroyed(ServletContextEvent sce)  创建后调用该方法。
+    * 服务器关闭前会销毁ServletContext对象。
+    * 监听器在监听到ServletContext对象销毁后会执行该方法。
+    * 释放资源
+
+* 3.配置
+
+  * 注解
+  * xml
