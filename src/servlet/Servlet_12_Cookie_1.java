@@ -18,6 +18,10 @@ public class Servlet_12_Cookie_1 extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Cookie cookie = new Cookie("user", "xinil");
+        cookie.setMaxAge(30);
         response.addCookie(cookie);
     }
+
+
+
 }
