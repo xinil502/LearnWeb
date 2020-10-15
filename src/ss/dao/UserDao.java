@@ -3,6 +3,7 @@ package ss.dao;
 import ss.domain.User;
 
 import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.List;
 
 /**
@@ -15,7 +16,7 @@ public interface UserDao {
      * @param ps
      * @return
      */
-    public List<User> toList(PreparedStatement ps);
+    public List<User> toList(PreparedStatement ps) throws SQLException;
 
     /**
      * 查询 user表中的所有数据。
