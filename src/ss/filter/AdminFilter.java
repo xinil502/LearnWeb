@@ -18,18 +18,19 @@ public class AdminFilter implements Filter {
         //对request消息的拦截
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         Cookie[] cookies = request.getCookies();
-        for(Cookie c:cookies) {
-            if (c.getName().equals("admin")) {
-                if(c.getValue().equals("true")){
-                    System.out.println("-已登录的用户-");
-                    filterChain.doFilter(servletRequest, servletResponse);//放行
-                    return; //
-                } else {
-                    request.getRequestDispatcher("/login.jsp").forward(request, servletResponse);
-                    return; //
+        if(cookies != null)
+            for(Cookie c:cookies) {
+                if (c.getName().equals("admin")) {
+                    if(c.getValue().equals("true")){
+                        System.out.println("-已登录的用户-");
+                        filterChain.doFilter(servletRequest, servletResponse);//放行
+                        return; //
+                    } else {
+                        request.getRequestDispatcher("/login.jsp").forward(request, servletResponse);
+                        return; //
+                    }
                 }
             }
-        }
         request.getRequestDispatcher("/login.jsp").forward(request, servletResponse);
     }
 
